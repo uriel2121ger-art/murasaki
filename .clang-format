@@ -1,0 +1,8 @@
+BasedOnStyle: WebKit
+ColumnLimit: 110
+IndentWidth: 4
+PointerAlignment: Right
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: Never
+NamespaceIndentation: None
+FixNamespaceComments: true

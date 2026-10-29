@@ -1,0 +1,8 @@
+{
+  "uuid": "murasaki@uriel2121ger-art.github.io",
+  "name": "Murasaki",
+  "description": "Shows the animated wallpapers and desktop pets of Murasaki on GNOME: pins Murasaki's windows as the desktop background and above everything, and tells it which windows cover the screen. Needs murasaki-surface (and murasaki-overlay for pets) running.",
+  "shell-version": ["46", "47", "48", "49", "50"],
+  "url": "https://github.com/uriel2121ger-art/murasaki",
+  "version": 1
+}

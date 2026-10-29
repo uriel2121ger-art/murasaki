@@ -1,0 +1,10 @@
+# Test tools of the fullscreen mode (docs/pets/stage.md); not installed.
+find_package(PkgConfig QUIET)
+if(TARGET PkgConfig::MPV)
+  add_executable(murasaki-seeklatency seeklatency.cpp)
+  target_link_libraries(murasaki-seeklatency PRIVATE PkgConfig::MPV)
+endif()
+if(TARGET PkgConfig::XCB)
+  add_executable(murasaki-fakecm fakecm.cpp)
+  target_link_libraries(murasaki-fakecm PRIVATE PkgConfig::XCB)
+endif()

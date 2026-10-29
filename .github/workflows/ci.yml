@@ -1,0 +1,44 @@
+name: ci
+
+on:
+  push:
+    branches: ['**']  # a release tag is built by release.yml, from a commit this already tested
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-24.04
+    # Murasaki needs Qt >= 6.8: the runner's own Ubuntu has 6.4, so the job runs in 26.04 LTS (Qt 6.10).
+    # --init reaps orphaned processes (the tests check that sandboxed children die with their parent); --privileged lets
+    # bubblewrap and Landlock work as they do on a desktop.
+    container:
+      image: ubuntu:26.04
+      options: --init --privileged
+    env:
+      DEBIAN_FRONTEND: noninteractive
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends ca-certificates git cmake ninja-build g++ pkg-config dbus \
+            qt6-base-dev qt6-declarative-dev qt6-webengine-dev qt6-l10n-tools libmpv-dev libavformat-dev libavcodec-dev \
+            libswscale-dev libavutil-dev libwebp-dev libgl-dev libegl-dev libgbm-dev libpipewire-0.3-dev \
+            qml6-module-org-kde-kirigami qml6-module-qtquick-controls qml6-module-qtquick-layouts qml6-module-qtquick-dialogs \
+            qml6-module-qtquick-templates qml6-module-qtquick-window qml6-module-qtqml-workerscript qml6-module-qtwebengine \
+            mesa-vulkan-drivers libgl1-mesa-dri libegl-mesa0 bubblewrap python3
+          # The web engine refuses to run as root, and the tests run as the user who configured the build.
+          useradd -m ci
+          # Ubuntu runners refuse unprivileged user namespaces, which bwrap needs for the sandbox tests; the container is privileged.
+          sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+      - uses: actions/checkout@v5
+      - name: Configure
+        run: |
+          chown -R ci .
+          runuser -u ci -- env HOME=/home/ci cmake --preset ci
+      - name: Build
+        run: runuser -u ci -- env HOME=/home/ci cmake --build --preset ci
+      - name: Test
+        run: runuser -u ci -- env HOME=/home/ci dbus-run-session -- ctest --preset ci

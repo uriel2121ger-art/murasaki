@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Murasaki Overlay
+Comment=Desktop pets of Murasaki
+Exec=murasaki-overlay
+Icon=io.github.uriel2121ger_art.Murasaki
+NoDisplay=true
+Categories=Utility;

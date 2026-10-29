@@ -1,0 +1,98 @@
+# Builds the packages of a release and attaches them to the GitHub release of the tag.
+#   git tag v0.1.0 && git push origin v0.1.0         (a tag with a dash, v0.1.0-rc1, makes a pre-release)
+# Run by hand (workflow_dispatch) it only builds the packages and keeps them as workflow artifacts.
+name: release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deb:
+    # The .deb is built inside the Ubuntu release it targets (docs/packaging.md), with the same script as by hand.
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - name: Check that the tag is the project version
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          version=$(sed -n 's/^  VERSION \([0-9.]*\)$/\1/p' CMakeLists.txt | head -1)
+          tag="${GITHUB_REF_NAME#v}"
+          if [ "${tag%%-*}" != "$version" ]; then
+            echo "::error::tag $GITHUB_REF_NAME does not match the project version $version (CMakeLists.txt)"
+            exit 1
+          fi
+      - name: Build the .deb (Ubuntu 26.04)
+        run: tools/packaging/build-deb-in-container.sh ubuntu:26.04
+      - uses: actions/upload-artifact@v6
+        with:
+          name: deb
+          path: build/deb-ubuntu-26.04/murasaki_*.deb
+          if-no-files-found: error
+
+  flatpak:
+    runs-on: ubuntu-24.04
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:kde-6.11
+      # The runner's preinstalled toolchains are mounted so that they can be removed: the KDE SDK, the Qt WebEngine base
+      # app and the build do not fit in the free space otherwise.
+      options: >-
+        --privileged
+        -v /usr/share/dotnet:/host/dotnet
+        -v /usr/local/lib/android:/host/android
+        -v /opt/ghc:/host/ghc
+        -v /opt/hostedtoolcache:/host/toolcache
+    steps:
+      - name: Free disk space
+        run: |
+          df -h /__w
+          rm -rf /host/dotnet/* /host/android/* /host/ghc/* /host/toolcache/*
+          df -h /__w
+      - uses: actions/checkout@v5
+      - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          bundle: murasaki.flatpak
+          manifest-path: packaging/flatpak/io.github.uriel2121ger_art.Murasaki.yml
+          cache-key: flatpak-builder-${{ hashFiles('packaging/flatpak/*.yml') }}
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [deb, flatpak]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v7
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          ls -l dist
+          version="${GITHUB_REF_NAME#v}"
+          cp dist/murasaki.flatpak "dist/murasaki-$version-x86_64.flatpak"
+          prerelease=""
+          case "$GITHUB_REF_NAME" in *-*) prerelease="--prerelease" ;; esac
+          gh release create "$GITHUB_REF_NAME" $prerelease --title "Murasaki $version" --notes-file - \
+            dist/murasaki_*.deb "dist/murasaki-$version-x86_64.flatpak" <<'NOTES'
+          **Requisitos:** Steam con Wallpaper Engine comprado e instalado (y Anima Engine para las mascotas). Murasaki no trae fondos: reproduce los de tu cuenta. Ver la sección Requisitos del README.
+
+          ## Instalación
+
+          **Ubuntu 26.04 / KDE neon (.deb)**
+
+              sudo apt install ./murasaki_*_amd64.deb
+
+          **Cualquier distribución (Flatpak)**: necesita el remoto de Flathub para el runtime de KDE.
+
+              flatpak install --user ./murasaki-*-x86_64.flatpak
+
+          El README explica qué incluye cada paquete (el plugin de fondo de Plasma y la extensión de GNOME vienen solo en el .deb).
+          NOTES

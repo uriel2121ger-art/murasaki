@@ -1,0 +1,19 @@
+[Unit]
+Description=Murasaki desktop pets
+# A crash loop ends here instead of burning CPU: five starts in a minute and systemd gives up until the
+# window passes (murasakid asks for a start again when pets change, at most every 30 seconds).
+StartLimitIntervalSec=60
+StartLimitBurst=5
+PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
+
+[Service]
+Type=dbus
+BusName=io.github.uriel2121ger_art.Murasaki.Overlay
+ExecStart=@CMAKE_INSTALL_FULL_BINDIR@/murasaki-overlay
+Restart=on-failure
+RestartPreventExitStatus=1
+RestartSec=2
+# Started and stopped by murasakid when the first pet is added and the last one is removed, or by D-Bus
+# activation; there is nothing to enable.

@@ -1,0 +1,30 @@
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls as QQC2
+import "Murasaki/Bridge"
+
+ColumnLayout {
+    // Any output tells whether the daemon answers; the screen of this dialog is not known here.
+    MurasakiOutputStatus {
+        id: status
+        output: Screen.name
+    }
+
+    QQC2.Label {
+        Layout.fillWidth: true
+        wrapMode: Text.WordWrap
+        text: status.itemId !== ""
+            ? "Murasaki is showing " + status.itemId + " (" + status.kind + ") on this screen."
+            : "Nothing is assigned to this screen, or Murasaki is not running."
+    }
+    QQC2.Label {
+        Layout.fillWidth: true
+        wrapMode: Text.WordWrap
+        opacity: 0.7
+        text: "Choose what to show, per screen and desktop, in the Murasaki app."
+    }
+    QQC2.Button {
+        text: "Open Murasaki"
+        onClicked: MurasakiStatus.openMurasaki("@MURASAKI_APP_PROGRAM@")
+    }
+}

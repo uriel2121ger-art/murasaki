@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=io.github.uriel2121ger_art.Murasaki.Overlay
+Exec=@CMAKE_INSTALL_FULL_BINDIR@/murasaki-overlay
+SystemdService=murasaki-overlay.service

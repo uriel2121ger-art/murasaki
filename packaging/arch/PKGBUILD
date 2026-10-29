@@ -1,0 +1,59 @@
+# Maintainer: uriel2121ger-art <uriel2121ger-art@users.noreply.github.com>
+# Builds Murasaki from a release tag. The dependency list mirrors the .deb (docs/packaging.md).
+pkgname=murasaki
+pkgver=0.1.0
+pkgrel=1
+pkgdesc='Animated wallpapers and desktop pets (video, web and scene wallpapers, Wallpaper Engine items)'
+arch=(x86_64)
+url='https://github.com/uriel2121ger-art/murasaki'
+# Dual-licensed: GPL-3.0-or-later or a commercial licence (LICENSING.md). This package is the GPL one.
+license=(GPL-3.0-or-later)
+depends=(
+  # Qt, QML modules (Quick Controls, Dialogs, Layouts, Labs Platform, WebEngine) and the Kirigami QML module
+  qt6-base qt6-declarative qt6-svg qt6-webengine qt6-wayland kirigami
+  layer-shell-qt wayland libx11 libxcb libxext
+  mpv ffmpeg libwebp zlib lz4
+  pipewire libglvnd mesa vulkan-icd-loader
+  freetype2 fontconfig libjpeg-turbo libdeflate libva
+  dbus
+  # Arch builds glslang as shared libraries, which murasaki-scene-vk and murasaki-puppet then need at run time
+  # (the Debian build links the fetched copy statically).
+  glslang
+)
+makedepends=(cmake ninja qt6-tools vulkan-headers)
+optdepends=(
+  'qqc2-desktop-style: native look of the GUI in KDE (a plain Qt style is used without it)'
+  'bubblewrap: mount-namespace layer of the scene sandbox (Landlock alone is used without it)'
+  'plasma-desktop: the "Murasaki" wallpaper type in Plasma'
+  'vulkan-driver: the Vulkan scene engine and puppet pets need a Vulkan driver'
+  'steam: Wallpaper Engine items from your own Steam library'
+  'steamcmd: Workshop downloads without the Steam client'
+)
+# Replace SKIP with `updpkgsums` output when a tag is published.
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('SKIP')
+
+build() {
+  # No MURASAKI_FETCH_DIR: the system glslang is used, nothing is downloaded.
+  cmake -S "$pkgname-$pkgver" -B build -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DMURASAKI_SYSTEMD_USER_UNIT_DIR=lib/systemd/user \
+    -DMURASAKI_BUILD_SURFACE=ON \
+    -DMURASAKI_BUILD_APP=ON \
+    -DBUILD_TESTING=OFF
+  cmake --build build
+}
+
+# The test suite needs a GPU, a session bus and nested compositors: it is run by the project, not here.
+
+package() {
+  DESTDIR="$pkgdir" cmake --install build --strip
+  install -Dm644 "$pkgname-$pkgver/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 "$pkgname-$pkgver/LICENSING.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSING.md"
+  install -Dm644 "$pkgname-$pkgver/docs/third-party.md" "$pkgdir/usr/share/licenses/$pkgname/third-party.md"
+  # Debian-specific files, and the staged copy of the Plasma bridge module (the Plasma package has its own), that the
+  # shared install rules also drop in place.
+  rm -rf "$pkgdir/usr/share/murasaki/plasma"
+  rm -f "$pkgdir/usr/share/doc/$pkgname/copyright" "$pkgdir/usr/share/doc/$pkgname/changelog.gz"
+}

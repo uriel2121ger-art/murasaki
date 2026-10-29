@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Name=Murasaki
+Name[es]=Murasaki
+GenericName=Animated wallpapers
+GenericName[es]=Fondos animados
+Comment=Manage animated wallpapers and Wallpaper Engine items
+Comment[es]=Administra fondos de pantalla animados y elementos de Wallpaper Engine
+Exec=murasaki
+Icon=io.github.uriel2121ger_art.Murasaki
+Terminal=false
+Categories=Settings;DesktopSettings;Qt;KDE;
+Keywords=wallpaper;animated;video;workshop;background;
+Keywords[es]=fondo;fondos;animado;video;taller;escritorio;
+StartupWMClass=io.github.uriel2121ger_art.Murasaki

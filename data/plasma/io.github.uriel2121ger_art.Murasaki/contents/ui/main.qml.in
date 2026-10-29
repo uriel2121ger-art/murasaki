@@ -1,0 +1,58 @@
+import QtQuick
+import org.kde.plasma.plasmoid
+
+// The Murasaki wallpaper: a bridge consumer. The heavy work (decoding, web engine, scene engine) happens in a
+// separate murasaki-surface --host process, so a crash there never reaches plasmashell. The Murasaki.Bridge module
+// that holds BridgeItem ships inside this package (contents/ui/Murasaki/Bridge) and does run inside plasmashell:
+// if it cannot be loaded, a text item says so instead of an error wallpaper, but a crash in the module itself could
+// still take plasmashell down.
+WallpaperItem {
+    id: root
+
+    // The connector name of the screen this wallpaper is on ("DP-1", "Virtual-0"): the screen of the desktop
+    // window that shows the wallpaper. Empty until the item is in its window.
+    readonly property string outputName: Screen.name
+    onOutputNameChanged: console.log("murasaki wallpaper: output " + outputName)
+
+    // Whether the desktop window is hidden or minimized (another activity, the lock screen, ...): the wallpaper
+    // pauses. The attached Window type belongs to the item it is used on, so it is read here, on the root item,
+    // and not inside the Binding below (where it would be a window-less attached object that reads "Hidden").
+    readonly property bool windowHidden: Window.visibility === Window.Hidden || Window.visibility === Window.Minimized
+
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+    }
+
+    Loader {
+        id: view
+        anchors.fill: parent
+        source: "MurasakiView.qml"
+    }
+
+    Binding {
+        target: view.item
+        property: "program"
+        value: "@MURASAKI_SURFACE_PROGRAM@"
+        when: view.status === Loader.Ready
+    }
+    Binding {
+        target: view.item
+        property: "outputName"
+        value: root.outputName
+        when: view.status === Loader.Ready
+    }
+    Binding {
+        target: view.item
+        property: "hidden"
+        value: !root.visible || root.windowHidden
+        when: view.status === Loader.Ready
+    }
+
+    Text {
+        anchors.centerIn: parent
+        visible: view.status === Loader.Error
+        color: "white"
+        text: "Murasaki module not found, run: murasakictl plasma disable"
+    }
+}

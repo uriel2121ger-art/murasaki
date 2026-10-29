@@ -1,0 +1,15 @@
+# Build environment of the .deb for one Ubuntu release (tools/packaging/build-deb-in-container.sh). Build dependencies
+# only: the package's own dependencies are computed by dpkg-shlibdeps against the libraries of THIS image, which is what
+# makes the .deb installable on that release.
+ARG BASE=ubuntu:26.04
+FROM ${BASE}
+ENV DEBIAN_FRONTEND=noninteractive
+# An end-of-life release (25.10 since July 2026) is served from old-releases.ubuntu.com.
+RUN (apt-get update || { sed -i 's|http://\(archive\|security\).ubuntu.com|http://old-releases.ubuntu.com|g' /etc/apt/sources.list /etc/apt/sources.list.d/* 2>/dev/null; apt-get update; }) && apt-get install -y --no-install-recommends \
+    ca-certificates cmake ninja-build g++ pkg-config file dpkg-dev gzip git \
+    qt6-base-dev qt6-declarative-dev qt6-webengine-dev qt6-svg-dev qt6-tools-dev qt6-l10n-tools \
+    libmpv-dev libavformat-dev libavcodec-dev libswscale-dev libswresample-dev libavutil-dev \
+    libwebp-dev libpipewire-0.3-dev libgl-dev libegl-dev libgbm-dev libx11-dev libxext-dev libxcb1-dev \
+    libwayland-dev libwayland-bin liblayershellqtinterface-dev \
+    libvulkan-dev liblz4-dev libva-dev libfreetype-dev libfontconfig-dev libjpeg-dev libdeflate-dev zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*

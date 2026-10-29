@@ -1,0 +1,25 @@
+#!/bin/sh
+# Murasaki installs no system service and enables nothing: it runs as user units, and a maintainer script runs as root,
+# so it never touches a user's session or home. It only says how to turn the units on (first install) or how to pick up
+# the new binaries (upgrade).
+set -e
+if [ "$1" = "configure" ]; then
+    if [ -z "$2" ]; then
+        cat <<'MSG'
+Murasaki is installed. It runs as per-user services; nothing was enabled. As your user:
+
+    systemctl --user enable --now murasakid murasaki-surface
+
+(D-Bus also starts the daemon on demand, and the desktop pets start with the first pet.)
+Plasma users can pick "Murasaki" as the wallpaper type in the desktop settings.
+MSG
+    else
+        cat <<'MSG'
+Murasaki was upgraded. Running user services keep the old binaries until restarted. As your user (try-restart
+leaves alone any service that is not running):
+
+    systemctl --user try-restart murasakid murasaki-surface murasaki-overlay
+MSG
+    fi
+fi
+exit 0

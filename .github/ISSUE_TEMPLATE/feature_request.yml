@@ -1,0 +1,16 @@
+name: Proponer una idea / Feature request
+description: Algo que te gustaría que Murasaki hiciera / Something you would like Murasaki to do
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: La idea / The idea
+      description: Qué te gustaría poder hacer y para qué / What you would like to do and why
+    validations:
+      required: true
+  - type: textarea
+    id: now
+    attributes:
+      label: Cómo lo haces ahora / How you do it now
+      description: Si hay alguna forma de hacerlo hoy, aunque sea incómoda / If there is a way today, even an awkward one

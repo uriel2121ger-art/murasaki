@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.uriel2121ger_art.Murasaki</id>
+  <name>Murasaki</name>
+  <summary>Animated wallpapers and desktop pets for Linux</summary>
+  <summary xml:lang="es">Fondos de pantalla animados y mascotas de escritorio para Linux</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="io.github.uriel2121ger_art">
+    <name>uriel2121ger-art</name>
+  </developer>
+  <description>
+    <p>Murasaki plays video, web and scene wallpapers on your desktop, and reads the items of your own Wallpaper Engine installation without copying them. It also shows animated desktop pets.</p>
+    <p xml:lang="es">Murasaki reproduce fondos de video, web y escenas en tu escritorio, y lee los elementos de tu propia instalación de Wallpaper Engine sin copiarlos. También muestra mascotas animadas en el escritorio.</p>
+    <p>Web wallpapers have no network access unless you allow it for each one, and scene engines run in a sandbox.</p>
+    <p xml:lang="es">Los fondos web no tienen acceso a la red salvo que lo permitas en cada uno, y los motores de escenas se ejecutan en un entorno aislado.</p>
+    <ul>
+      <li>Playlists, spanning one wallpaper across screens, and pause rules for games and battery</li>
+      <li>Plasma wallpaper plugin and layer-shell presenter for other compositors</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.github.uriel2121ger_art.Murasaki.desktop</launchable>
+  <url type="homepage">https://github.com/uriel2121ger-art/murasaki</url>
+  <url type="bugtracker">https://github.com/uriel2121ger-art/murasaki/issues</url>
+  <provides>
+    <binary>murasaki</binary>
+    <binary>murasakid</binary>
+    <binary>murasaki-surface</binary>
+    <binary>murasaki-overlay</binary>
+    <binary>murasaki-puppet</binary>
+    <binary>murasaki-scene-vk</binary>
+    <binary>murasaki-petaudio</binary>
+    <binary>murasaki-petimport</binary>
+    <binary>murasaki-sandbox</binary>
+    <binary>murasaki-screenmatch</binary>
+    <binary>murasakictl</binary>
+  </provides>
+  <keywords>
+    <keyword>wallpaper</keyword>
+    <keyword>animated</keyword>
+    <keyword>video</keyword>
+    <keyword>background</keyword>
+  </keywords>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+  <requires>
+    <display_length compare="ge">768</display_length>
+  </requires>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.1.0" date="2026-10-17">
+      <description>
+        <p>First packaged release.</p>
+      </description>
+    </release>
+  </releases>
+</component>

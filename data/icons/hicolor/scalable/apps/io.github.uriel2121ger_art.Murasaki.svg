@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3b2a5c"/>
+      <stop offset="1" stop-color="#1d1533"/>
+    </linearGradient>
+    <linearGradient id="petal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d9b8ff"/>
+      <stop offset="1" stop-color="#8e55d6"/>
+    </linearGradient>
+  </defs>
+  <!-- screen -->
+  <rect x="10" y="18" width="108" height="72" rx="9" fill="url(#bg)" stroke="#6b4aa8" stroke-width="3"/>
+  <!-- stand -->
+  <path d="M52 90h24l4 16H48z" fill="#6b4aa8"/>
+  <rect x="38" y="104" width="52" height="7" rx="3.5" fill="#8e55d6"/>
+  <!-- crescent moon -->
+  <path d="M84 30a26 26 0 1 0 14 38a21 21 0 1 1 -14 -38z" fill="url(#petal)" opacity="0.95"/>
+  <!-- five-petal flower over the screen -->
+  <g transform="translate(52 54)" fill="#f1e4ff" stroke="#b98af0" stroke-width="1.2">
+    <path id="p" d="M0 0C-7 -8 -7 -19 0 -25C7 -19 7 -8 0 0z"/>
+    <use href="#p" transform="rotate(72)"/>
+    <use href="#p" transform="rotate(144)"/>
+    <use href="#p" transform="rotate(216)"/>
+    <use href="#p" transform="rotate(288)"/>
+    <circle r="4.5" fill="#8e55d6" stroke="none"/>
+  </g>
+</svg>

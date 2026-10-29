@@ -1,0 +1,13 @@
+[Unit]
+Description=Murasaki wallpaper surface
+PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
+
+[Service]
+ExecStart=@CMAKE_INSTALL_FULL_BINDIR@/murasaki-surface
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target

@@ -1,0 +1,2 @@
+# Refusals of murasaki-scene-vk --check that are accepted for now: id <TAB> reason prefix. check_census.py fails on any
+# other refusal. Every line needs a why; a scene that passes again is reported so its line can go.

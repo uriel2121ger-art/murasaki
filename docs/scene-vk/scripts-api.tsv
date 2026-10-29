@@ -1,0 +1,473 @@
+# class	member	status	note
+# status: full (real behaviour), partial (works within limits, see note), noop (accepted, documented empty or stored value), na (needs something this engine refuses, see note), todo (not yet)
+AnimationEvent	name	full	
+AnimationEvent	frame	full	
+AudioBuffers	average	full	
+AudioBuffers	left	full	
+AudioBuffers	right	full	
+CameraTransforms	eye	full	
+CameraTransforms	center	full	
+CameraTransforms	up	full	
+CameraTransforms	zoom	partial	stored and read back
+CursorEvent	worldPosition	full	
+CursorEvent	localPosition	full	
+CursorEvent	hitBox	noop	null: objects have one box
+IAnimation	fps	full	
+IAnimation	frameCount	full	
+IAnimation	duration	full	
+IAnimation	name	full	
+IAnimation	rate	full	
+IAnimation	play	full	plays on from where it is; a Single animation at its end starts again
+IAnimation	stop	full	
+IAnimation	pause	full	
+IAnimation	isPlaying	full	
+IAnimation	getFrame	full	
+IAnimation	setFrame	full	
+IAnimationLayer	fps	full	
+IAnimationLayer	frameCount	full	
+IAnimationLayer	duration	full	
+IAnimationLayer	name	full	
+IAnimationLayer	rate	full	
+IAnimationLayer	blend	full	
+IAnimationLayer	visible	full	
+IAnimationLayer	play	partial	shows the layer and restarts its rate
+IAnimationLayer	stop	partial	hides the layer
+IAnimationLayer	pause	partial	sets the rate to 0
+IAnimationLayer	isPlaying	full	
+IAnimationLayer	getFrame	full	the frame on the engine's clock, plus what setFrame moved it by
+IAnimationLayer	setFrame	full	the layer shows that frame and plays on from it
+IAnimationLayer	addEndedCallback	noop	never called: animations loop
+IConsole	log	full	
+IConsole	error	full	
+IEffect	visible	full	
+IEffect	name	full	
+IEffect	getMaterial	full	
+IEffect	getMaterialCount	full	
+IEffect	setMaterialProperty	full	
+IEffect	executeMaterialFunction	noop	no effect: material functions are an editor feature
+IEffectLayer	size	full	
+IEffectLayer	perspective	partial	stored; the 2D draw ignores it
+IEffectLayer	solid	full	
+IEffectLayer	getEffect	full	
+IEffectLayer	getEffectCount	full	
+IEffectLayer	transformAttachmentToTexture	noop	identity: no attachments
+IEngine	screenResolution	full	
+IEngine	canvasSize	full	
+IEngine	userProperties	full	
+IEngine	timeOfDay	full	
+IEngine	frametime	full	
+IEngine	runtime	full	
+IEngine	AUDIO_RESOLUTION_16	full	
+IEngine	AUDIO_RESOLUTION_32	full	
+IEngine	AUDIO_RESOLUTION_64	full	
+IEngine	isDesktopDevice	full	
+IEngine	isMobileDevice	full	
+IEngine	isWallpaper	full	
+IEngine	isScreensaver	full	
+IEngine	isPortrait	full	
+IEngine	isLandscape	full	
+IEngine	isRunningInEditor	full	
+IEngine	openUserShortcut	partial	asks the host to start the application the user chose for the usershortcut property `name`, only after a real click and within the host's limits; true when the request was sent (the host may still refuse), false when `name` is not a property that holds an application or there is no host to ask
+IEngine	registerAudioBuffers	full	
+IEngine	registerAsset	partial	returns a handle for createLayer; the Workshop export is not something this engine does
+IEngine	setTimeout	full	
+IEngine	setInterval	full	
+IImageLayer	size	full	
+IImageLayer	perspective	partial	stored; the 2D draw ignores it
+IImageLayer	solid	full	
+IImageLayer	getEffect	full	
+IImageLayer	getEffectCount	full	
+IImageLayer	getTextureAnimation	partial	an object that keeps its own state; the sprite sheet plays on the engine's clock
+IImageLayer	getVideoTexture	full	the same IVideoTexture each time for a layer whose albedo is a video; null for any other layer
+IImageLayer	playSingleAnimation	full	
+IImageLayer	getAnimationLayerCount	full	
+IImageLayer	getAnimationLayer	full	
+IImageLayer	createAnimationLayer	full	
+IImageLayer	destroyAnimationLayer	full	
+IImageLayer	getBoneCount	full	
+IImageLayer	getBoneTransform	noop	identity (the pose is the animations', not readable)
+IImageLayer	setBoneTransform	noop	no effect: the pose comes from the animation layers
+IImageLayer	getLocalBoneTransform	noop	identity
+IImageLayer	setLocalBoneTransform	noop	no effect
+IImageLayer	getLocalBoneAngles	noop	zero
+IImageLayer	setLocalBoneAngles	noop	no effect
+IImageLayer	getLocalBoneOrigin	noop	zero
+IImageLayer	setLocalBoneOrigin	noop	no effect
+IImageLayer	getBoneIndex	full	
+IImageLayer	getBoneParentIndex	full	
+IImageLayer	applyBonePhysicsImpulse	partial	pushes a bone whose constraint has a rotation or translation spring (the impulse is a velocity change: units/s, rad/s, assumed); a bone without one, a mesh or a puppet without spring bones ignore it
+IImageLayer	resetBonePhysicsSimulation	partial	puts the spring bones back on the animated pose at rest: the given bone, or all of them without an argument
+IImageLayer	getBlendShapeIndex	noop	-1: no blend shapes (morph targets)
+IImageLayer	getBlendShapeWeight	partial	0
+IImageLayer	setBlendShapeWeight	noop	no effect
+IImageLayer	alpha	full	
+IImageLayer	color	full	
+IImageLayer	alignment	full	
+IInput	cursorWorldPosition	full	scene units, y up
+IInput	cursorScreenPosition	full	
+IInput	cursorLeftDown	full	
+ILayer	origin	full	
+ILayer	angles	full	
+ILayer	scale	full	
+ILayer	name	full	
+ILayer	visible	full	
+ILayer	parallaxDepth	full	
+ILayer	getAnimation	full	
+ILayer	rotateObjectSpace	full	
+ILayer	setParent	partial	the object moves under the new parent; keeping the world transform recomputes the origin only (not rotation or scale of the parents); attachments are ignored
+ILayer	getParent	full	
+ILayer	getChildren	full	
+ILayer	getAttachmentIndex	partial	attachments are a puppet and 3D model feature this engine does not read: -1
+ILayer	getAttachmentMatrix	noop	identity: no attachments
+ILayer	getAttachmentOrigin	noop	zero: no attachments
+ILayer	getAttachmentAngles	noop	zero: no attachments
+ILayer	getTransformMatrix	full	the world matrix, the position in m[12..14]
+ILayer	lookAt	partial	the layer's +z axis is turned to the point and its own angles are set (a parent's rotation is not compensated); the axis convention is inferred, WE does not document it
+ILayer	lookAtYaw	partial	as lookAt, turning around the up axis only
+ILocalStorage	LOCATION_GLOBAL	full	
+ILocalStorage	LOCATION_SCREEN	full	
+ILocalStorage	get	full	kept per item between runs (<cache>/murasaki/shader-cache/script-storage/<item>.json); both locations are the item's
+ILocalStorage	set	full	kept per item between runs (<cache>/murasaki/shader-cache/script-storage/<item>.json); both locations are the item's
+ILocalStorage	clear	full	kept per item between runs (<cache>/murasaki/shader-cache/script-storage/<item>.json); both locations are the item's
+ILocalStorage	delete	full	kept per item between runs (<cache>/murasaki/shader-cache/script-storage/<item>.json); both locations are the item's
+IModelData	POSITION	full	the attribute names
+IModelData	NORMAL	full	the attribute names
+IModelData	UV	full	the attribute names
+IModelData	TANGENT_SIGNED	full	the attribute names
+IModelData	COLOR	full	the attribute names
+IModelData	applyData	noop	stored only
+IModelData	replaceData	noop	stored only
+IModelLayer	perspective	todo	a mesh's perspective is not read
+IModelLayer	rootmotion	todo	a mesh's root motion is not read
+IModelLayer	playSingleAnimation	full	a skinned mesh (its model has bones and the object animation layers): the layers of a puppet; a mesh without them has none
+IModelLayer	getAnimationLayerCount	full	a skinned mesh (its model has bones and the object animation layers): the layers of a puppet; a mesh without them has none
+IModelLayer	getAnimationLayer	full	a skinned mesh (its model has bones and the object animation layers): the layers of a puppet; a mesh without them has none
+IModelLayer	createAnimationLayer	full	a skinned mesh (its model has bones and the object animation layers): the layers of a puppet; a mesh without them has none
+IModelLayer	destroyAnimationLayer	full	a skinned mesh (its model has bones and the object animation layers): the layers of a puppet; a mesh without them has none
+IParticleSystem	instance	full	
+IParticleSystem	play	full	
+IParticleSystem	pause	full	
+IParticleSystem	stop	full	
+IParticleSystem	isPlaying	full	
+IParticleSystem	emitParticles	full	
+IParticleSystemInstance	alpha	full	
+IParticleSystemInstance	size	full	
+IParticleSystemInstance	count	full	
+IParticleSystemInstance	speed	full	
+IParticleSystemInstance	lifetime	full	
+IParticleSystemInstance	rate	full	
+IParticleSystemInstance	colorn	partial	a Vec3 (the instance colour)
+IParticleSystemInstance	controlpoint0	full	
+IParticleSystemInstance	controlpoint1	full	
+IParticleSystemInstance	controlpoint2	full	
+IParticleSystemInstance	controlpoint3	full	
+IParticleSystemInstance	controlpoint4	full	
+IParticleSystemInstance	controlpoint5	full	
+IParticleSystemInstance	controlpoint6	full	
+IParticleSystemInstance	controlpoint7	full	
+IScene	bloom	full	
+IScene	bloomstrength	full	
+IScene	bloomthreshold	full	
+IScene	clearenabled	partial	kept as set: the clear colour is always drawn
+IScene	clearcolor	full	
+IScene	ambientcolor	partial	kept as set: a 2D scene has no light to apply it to
+IScene	skylightcolor	partial	kept as set: a 2D scene has no light to apply it to
+IScene	fov	full	
+IScene	nearz	full	
+IScene	farz	full	
+IScene	camerafade	partial	kept as set: no camera fade is drawn
+IScene	camerashake	full	
+IScene	camerashakespeed	full	
+IScene	camerashakeamplitude	full	
+IScene	camerashakeroughness	full	
+IScene	cameraparallax	full	
+IScene	cameraparallaxamount	full	
+IScene	cameraparallaxdelay	full	
+IScene	cameraparallaxmouseinfluence	full	
+IScene	getLayer	full	
+IScene	getLayerCount	full	
+IScene	enumerateLayers	full	
+IScene	destroyLayer	partial	the layer is hidden for good and leaves enumerateLayers and getLayerCount; its buffers are kept
+IScene	createLayer	full	
+IScene	sortLayer	full	
+IScene	getLayerIndex	full	
+IScene	getInitialLayerConfig	partial	the object as the file had it (name, origin, scale, angles, visible, size, alpha, color, solid, text and, for an image, `image`: its model file), in the file's notation
+IScene	getCameraTransforms	full	
+IScene	setCameraTransforms	partial	stored and read back; a perspective scene with no visible camera object is drawn through it, an orthographic one takes its direction (formats.md, Camera)
+IScene	createModelData	partial	returns an object that only stores the data: no layer draws custom geometry; `--check` names it `custom model geometry (not drawn)`
+IScene	destroyModelData	noop	nothing to free
+IScene	getLayerByID	full	by the object id of the scene file, a string or a number; null when there is none or it was destroyed
+IScene	getAnimation	full	the first layer that has an animation of that name; a name is needed (null without one)
+ISoundLayer	volume	full	
+ISoundLayer	isPlaying	full	
+ISoundLayer	play	partial	unmutes the sound object
+ISoundLayer	stop	partial	silences the sound object (it keeps its place in the track)
+ISoundLayer	pause	partial	silences the sound object (it keeps its place in the track)
+ITextLayer	text	full	
+ITextLayer	color	full	
+ITextLayer	alpha	full	
+ITextLayer	opaquebackground	partial	kept as set: the text engine draws no background box
+ITextLayer	backgroundcolor	partial	kept as set: the text engine draws no background box
+ITextLayer	pointsize	full	
+ITextLayer	font	full	
+ITextLayer	padding	full	
+ITextLayer	horizontalalign	full	
+ITextLayer	verticalalign	full	
+ITextLayer	anchor	partial	kept as set
+ITextLayer	limitrows	partial	kept as set: rows are not limited
+ITextLayer	maxrows	partial	kept as set: rows are not limited
+ITextLayer	limitwidth	full	
+ITextLayer	maxwidth	full	
+ITextureAnimation	frameCount	noop	the object keeps its own state; the sprite sheet plays on the engine's clock
+ITextureAnimation	duration	noop	the object keeps its own state; the sprite sheet plays on the engine's clock
+ITextureAnimation	rate	noop	the object keeps its own state; the sprite sheet plays on the engine's clock
+ITextureAnimation	play	noop	the object keeps its own state; the sprite sheet plays on the engine's clock
+ITextureAnimation	stop	noop	the object keeps its own state; the sprite sheet plays on the engine's clock
+ITextureAnimation	pause	noop	the object keeps its own state; the sprite sheet plays on the engine's clock
+ITextureAnimation	isPlaying	noop	the object keeps its own state; the sprite sheet plays on the engine's clock
+ITextureAnimation	getFrame	noop	the object keeps its own state; the sprite sheet plays on the engine's clock
+ITextureAnimation	setFrame	noop	the object keeps its own state; the sprite sheet plays on the engine's clock
+ITextureAnimation	join	noop	the object keeps its own state; the sprite sheet plays on the engine's clock
+IThisPropertyObject	getAnimation	full	
+IVideoTexture	duration	full	seconds of one run (0 until the renderer has opened the video; --check has no renderer)
+IVideoTexture	rate	full	times the video's own speed, clamped to -16..16; one that is not above 0 holds the picture
+IVideoTexture	loop	full	writable; true by default; a video that does not loop stops on its last picture
+IVideoTexture	play	full	also starts a video that has run out from the beginning
+IVideoTexture	pause	full	
+IVideoTexture	stop	full	pauses and goes back to the start
+IVideoTexture	isPlaying	full	
+IVideoTexture	getCurrentTime	full	seconds into the video, of the picture on show (the target of a setCurrentTime at once)
+IVideoTexture	setCurrentTime	full	seconds; clamped to the video
+IVideoTexture	addEndedCallback	full	called once for each time the video reached its end (a loop going round counts), from the frame of the scripts that tick
+Mat3	m	full	
+Mat3	constructor	full	
+Mat3	identity	full	
+Mat3	fromTranslation	full	
+Mat3	fromScale	full	
+Mat3	fromRotation	full	
+Mat3	fromBasis	full	
+Mat3	fromMat4	full	
+Mat3	compose	full	
+Mat3	translation	full	
+Mat3	angle	full	
+Mat3	add	full	
+Mat3	subtract	full	
+Mat3	multiply	full	
+Mat3	translate	full	
+Mat3	rotate	full	
+Mat3	scale	full	
+Mat3	transformPoint	full	
+Mat3	transformDirection	full	
+Mat3	transpose	full	
+Mat3	determinant	full	
+Mat3	inverse	full	
+Mat3	decompose	full	
+Mat3	copy	full	
+Mat3	equals	full	
+Mat3	toString	full	
+Mat4	constructor	full	
+Mat4	identity	full	
+Mat4	fromTranslation	full	
+Mat4	fromScale	full	
+Mat4	fromRotation	full	
+Mat4	fromEuler	full	
+Mat4	fromBasis	full	
+Mat4	lookAt	full	
+Mat4	compose	full	
+Mat4	translation	full	
+Mat4	right	full	
+Mat4	up	full	
+Mat4	forward	full	
+Mat4	add	full	
+Mat4	subtract	full	
+Mat4	multiply	full	
+Mat4	translate	full	
+Mat4	rotate	full	
+Mat4	scale	full	
+Mat4	transformPoint	full	
+Mat4	transformDirection	full	
+Mat4	transpose	full	
+Mat4	inverse	full	
+Mat4	determinant	full	
+Mat4	extractEuler	full	
+Mat4	normalMatrix	full	
+Mat4	decompose	full	
+Mat4	copy	full	
+Mat4	equals	full	
+Mat4	toString	full	
+Mat4	m	full	the 16 numbers, column major
+MediaPlaybackEvent	state	full	0 stopped, 1 playing, 2 paused: the player the host follows (MPRIS), told after init and at each change
+MediaPropertiesEvent	title	full	from the player's metadata (cut to 256 bytes, at most 8 genres); subTitle and contentType are empty (MPRIS has none)
+MediaPropertiesEvent	artist	full	from the player's metadata (cut to 256 bytes, at most 8 genres); subTitle and contentType are empty (MPRIS has none)
+MediaPropertiesEvent	contentType	full	from the player's metadata (cut to 256 bytes, at most 8 genres); subTitle and contentType are empty (MPRIS has none)
+MediaPropertiesEvent	albumTitle	full	from the player's metadata (cut to 256 bytes, at most 8 genres); subTitle and contentType are empty (MPRIS has none)
+MediaPropertiesEvent	subTitle	full	from the player's metadata (cut to 256 bytes, at most 8 genres); subTitle and contentType are empty (MPRIS has none)
+MediaPropertiesEvent	albumArtist	full	from the player's metadata (cut to 256 bytes, at most 8 genres); subTitle and contentType are empty (MPRIS has none)
+MediaPropertiesEvent	genres	full	from the player's metadata (cut to 256 bytes, at most 8 genres); subTitle and contentType are empty (MPRIS has none)
+MediaStatusEvent	enabled	full	true while a player is followed
+MediaThumbnailEvent	hasThumbnail	full	the cover of the track; the colours are computed from it by the engine (an assumption, see formats.md)
+MediaThumbnailEvent	primaryColor	full	the cover of the track; the colours are computed from it by the engine (an assumption, see formats.md)
+MediaThumbnailEvent	secondaryColor	full	the cover of the track; the colours are computed from it by the engine (an assumption, see formats.md)
+MediaThumbnailEvent	tertiaryColor	full	the cover of the track; the colours are computed from it by the engine (an assumption, see formats.md)
+MediaThumbnailEvent	textColor	full	the cover of the track; the colours are computed from it by the engine (an assumption, see formats.md)
+MediaThumbnailEvent	highContrastColor	full	the cover of the track; the colours are computed from it by the engine (an assumption, see formats.md)
+MediaTimelineEvent	position	full	seconds; once a second while the media plays, extrapolated from the last report
+MediaTimelineEvent	duration	full	seconds; once a second while the media plays, extrapolated from the last report
+Vec2	x	full	
+Vec2	y	full	
+Vec2	constructor	full	
+Vec2	length	full	
+Vec2	lengthSqr	full	
+Vec2	distance	full	
+Vec2	distanceSqr	full	
+Vec2	normalize	full	
+Vec2	copy	full	
+Vec2	equals	full	
+Vec2	isFinite	full	
+Vec2	negate	full	
+Vec2	add	full	
+Vec2	subtract	full	
+Vec2	multiply	full	
+Vec2	divide	full	
+Vec2	dot	full	
+Vec2	reflect	full	
+Vec2	mix	full	
+Vec2	min	full	
+Vec2	max	full	
+Vec2	clamp	full	
+Vec2	perpendicular	full	
+Vec2	abs	full	
+Vec2	sign	full	
+Vec2	round	full	
+Vec2	floor	full	
+Vec2	ceil	full	
+Vec2	fract	full	
+Vec2	mod	full	
+Vec2	step	full	
+Vec2	smoothStep	full	
+Vec2	toString	full	
+Vec2	angle	full	
+Vec2	angleBetween	full	signed, in degrees (counter-clockwise positive); 0 when either vector has no length
+Vec2	project	full	
+Vec2	rotate	full	
+Vec3	x	full	
+Vec3	y	full	
+Vec3	z	full	
+Vec3	constructor	full	
+Vec3	fromSpherical	full	
+Vec3	equals	full	
+Vec3	distance	full	
+Vec3	distanceSqr	full	
+Vec3	length	full	
+Vec3	lengthSqr	full	
+Vec3	normalize	full	
+Vec3	copy	full	
+Vec3	isFinite	full	
+Vec3	negate	full	
+Vec3	add	full	
+Vec3	subtract	full	
+Vec3	multiply	full	
+Vec3	divide	full	
+Vec3	dot	full	
+Vec3	reflect	full	
+Vec3	refract	full	
+Vec3	project	full	
+Vec3	angleBetween	full	
+Vec3	toSpherical	full	
+Vec3	mix	full	
+Vec3	min	full	
+Vec3	max	full	
+Vec3	cross	full	
+Vec3	clamp	full	
+Vec3	abs	full	
+Vec3	sign	full	
+Vec3	round	full	
+Vec3	floor	full	
+Vec3	ceil	full	
+Vec3	fract	full	
+Vec3	mod	full	
+Vec3	step	full	
+Vec3	smoothStep	full	
+Vec3	toString	full	
+Vec4	x	full	
+Vec4	y	full	
+Vec4	z	full	
+Vec4	w	full	
+Vec4	constructor	full	
+Vec4	length	full	
+Vec4	lengthSqr	full	
+Vec4	distance	full	
+Vec4	distanceSqr	full	
+Vec4	normalize	full	
+Vec4	copy	full	
+Vec4	equals	full	
+Vec4	isFinite	full	
+Vec4	negate	full	
+Vec4	add	full	
+Vec4	subtract	full	
+Vec4	multiply	full	
+Vec4	divide	full	
+Vec4	dot	full	
+Vec4	reflect	full	
+Vec4	project	full	
+Vec4	mix	full	
+Vec4	min	full	
+Vec4	max	full	
+Vec4	clamp	full	
+Vec4	abs	full	
+Vec4	sign	full	
+Vec4	round	full	
+Vec4	floor	full	
+Vec4	ceil	full	
+Vec4	fract	full	
+Vec4	mod	full	
+Vec4	step	full	
+Vec4	smoothStep	full	
+Vec4	toString	full	
+event	applyGeneralSettings	full	
+event	applyUserProperties	partial	all the properties the scene was given (not the project defaults nobody set) once after init, then the changed ones
+event	cursorEnter	full	
+event	cursorLeave	full	
+event	cursorMove	full	
+event	cursorDown	full	
+event	cursorUp	full	
+event	cursorClick	full	
+event	destroy	partial	when the engine ends; not when a layer is destroyed with thisScene.destroyLayer
+event	init	full	
+event	mediaPlaybackChanged	full	when the player, the track, the cover or (once a second, while it plays) the position changes; told once after init with the present state
+event	mediaStatusChanged	full	when the player, the track, the cover or (once a second, while it plays) the position changes; told once after init with the present state
+event	mediaPropertiesChanged	full	when the player, the track, the cover or (once a second, while it plays) the position changes; told once after init with the present state
+event	mediaThumbnailChanged	full	when the player, the track, the cover or (once a second, while it plays) the position changes; told once after init with the present state
+event	mediaTimelineChanged	full	when the player, the track, the cover or (once a second, while it plays) the position changes; told once after init with the present state
+event	resizeScreen	full	when the output size changes (the first frame only records it)
+event	update	full	
+WEColor	rgb2hsv	full	
+WEColor	hsv2rgb	full	
+WEColor	normalizeColor	full	
+WEColor	expandColor	full	
+WEMath	deg2rad	full	
+WEMath	rad2deg	full	
+WEMath	smoothStep	full	
+WEMath	mix	full	
+WEVector	angleVector2	full	
+WEVector	vectorAngle2	full	
+ICamera	fov	noop	a camera is not a layer here (the scene camera is IScene.fov and getCameraTransforms): the value is kept on the layer and read back
+ICamera	zoom	noop	a camera is not a layer here (see IScene.getCameraTransforms): the value is kept on the layer and read back
+IObject	getAnimation	full	
+IComponent	applyGeneralSettings	full	
+IComponent	applyUserProperties	partial	all the properties the scene was given (not the project defaults nobody set) once after init, then the changed ones
+IComponent	cursorEnter	full	
+IComponent	cursorLeave	full	
+IComponent	cursorMove	full	
+IComponent	cursorDown	full	
+IComponent	cursorUp	full	
+IComponent	cursorClick	full	
+IComponent	destroy	partial	when the engine ends; not when a layer is destroyed with thisScene.destroyLayer
+IComponent	init	full	
+IComponent	mediaPlaybackChanged	full	when the player, the track, the cover or (once a second, while it plays) the position changes; told once after init with the present state
+IComponent	mediaStatusChanged	full	when the player, the track, the cover or (once a second, while it plays) the position changes; told once after init with the present state
+IComponent	mediaPropertiesChanged	full	when the player, the track, the cover or (once a second, while it plays) the position changes; told once after init with the present state
+IComponent	mediaThumbnailChanged	full	when the player, the track, the cover or (once a second, while it plays) the position changes; told once after init with the present state
+IComponent	mediaTimelineChanged	full	when the player, the track, the cover or (once a second, while it plays) the position changes; told once after init with the present state
+IComponent	resizeScreen	full	when the output size changes (the first frame only records it)
+IComponent	update	full	

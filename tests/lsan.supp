@@ -1,0 +1,8 @@
+# LeakSanitizer suppressions for the asan preset: leaks inside libraries the tests load, not in this code.
+# Use: LSAN_OPTIONS=suppressions=tests/lsan.supp
+leak:libfontconfig
+leak:libexpat
+leak:libvulkan
+leak:radeon_icd
+leak:libvulkan_radeon
+leak:libLLVM

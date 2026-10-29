@@ -1,0 +1,62 @@
+name: Reportar un fallo / Bug report
+description: Algo no funciona como debería / Something does not work as it should
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por reportarlo. Puedes escribir en español o en inglés.
+        Thanks for reporting it. You can write in Spanish or English.
+  - type: textarea
+    id: what
+    attributes:
+      label: Qué pasó / What happened
+      description: Qué esperabas y qué pasó en su lugar / What you expected and what happened instead
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Cómo reproducirlo / How to reproduce it
+      placeholder: |
+        1. Abrir la Biblioteca / Open the Library
+        2. ...
+  - type: input
+    id: item
+    attributes:
+      label: Elemento del Workshop / Workshop item
+      description: El enlace o el id del fondo o la mascota, si el fallo es con uno en concreto / The link or id of the wallpaper or pet, if it is about one
+  - type: input
+    id: version
+    attributes:
+      label: Versión de Murasaki / Murasaki version
+      description: "`murasakictl --version`, o Ajustes > Acerca de / or Settings > About"
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: Cómo lo instalaste / How you installed it
+      options: [".deb", Flatpak, "Compilado / Built from source", "Otro / Other"]
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: Distribución y escritorio / Distribution and desktop
+      placeholder: "Ubuntu 26.04, KDE Plasma 6.5 Wayland"
+    validations:
+      required: true
+  - type: input
+    id: gpu
+    attributes:
+      label: Tarjeta gráfica / Graphics card
+      placeholder: "AMD RX 7800 XT (Mesa 26.0)"
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        Los archivos de `~/.local/state/murasaki/logs/` (ver docs/user/logs.md). Revisa que no lleven nada privado.
+        The files in `~/.local/state/murasaki/logs/` (see docs/user/logs.md). Check that they hold nothing private.
+      render: text

@@ -1,0 +1,26 @@
+# Build trees (CMake presets, packaging, Flatpak)
+build/
+.cache/
+compile_commands.json
+.flatpak-builder/
+murasaki*.flatpak
+murasaki*.deb
+_CPack_Packages/
+
+# Secrets and local settings: never committed (read them from the environment)
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Editors and IDEs
+*.user
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store

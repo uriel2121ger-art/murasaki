@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=io.github.uriel2121ger_art.Murasaki
+Exec=@CMAKE_INSTALL_FULL_BINDIR@/murasakid
+SystemdService=murasakid.service

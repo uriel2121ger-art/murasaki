@@ -1,0 +1,9 @@
+[Unit]
+Description=Murasaki wallpaper daemon
+PartOf=graphical-session.target
+
+[Service]
+Type=dbus
+BusName=io.github.uriel2121ger_art.Murasaki
+ExecStart=@CMAKE_INSTALL_FULL_BINDIR@/murasakid
+Restart=on-failure

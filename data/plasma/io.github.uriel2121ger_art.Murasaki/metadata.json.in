@@ -1,0 +1,15 @@
+{
+    "KPackageStructure": "Plasma/Wallpaper",
+    "KPlugin": {
+        "Id": "io.github.uriel2121ger_art.Murasaki",
+        "Name": "Murasaki",
+        "Description": "Animated wallpapers (video, web pages and scenes) from Murasaki",
+        "Icon": "io.github.uriel2121ger_art.Murasaki",
+        "Authors": [{"Name": "uriel2121ger-art"}],
+        "License": "GPL-3.0+",
+        "Version": "@PROJECT_VERSION@",
+        "Website": "https://github.com/uriel2121ger-art/murasaki"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-KDE-ParentApp": "org.kde.plasmashell"
+}
