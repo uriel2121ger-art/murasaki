@@ -39,8 +39,14 @@ Download the package of the latest version from [Releases](../../releases):
 
 - **Ubuntu 26.04 / KDE neon (.deb):** `sudo apt install ./murasaki_*_amd64.deb`
 - **Any distribution (Flatpak):** `flatpak install --user ./murasaki-*-x86_64.flatpak` (needs the Flathub remote for the KDE runtime).
+- **Arch Linux:** build the package with the PKGBUILD in the repo:
 
-The Plasma wallpaper plugin and the GNOME extension are in the `.deb` only.
+  ```sh
+  git clone https://github.com/uriel2121ger-art/murasaki
+  cd murasaki/packaging/arch && makepkg -si
+  ```
+
+The Plasma wallpaper plugin and the GNOME extension are in the `.deb` and the Arch package, not in the Flatpak.
 
 ## Build
 

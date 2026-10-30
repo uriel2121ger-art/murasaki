@@ -39,8 +39,14 @@ Descarga el paquete de la última versión en la sección [Releases](../../relea
 
 - **Ubuntu 26.04 / KDE neon (.deb):** `sudo apt install ./murasaki_*_amd64.deb`
 - **Cualquier distribución (Flatpak):** `flatpak install --user ./murasaki-*-x86_64.flatpak` (necesita el remoto de Flathub para el runtime de KDE).
+- **Arch Linux:** compila el paquete con el PKGBUILD de la repo:
 
-El plugin de fondo de Plasma y la extensión de GNOME vienen solo en el `.deb`.
+  ```sh
+  git clone https://github.com/uriel2121ger-art/murasaki
+  cd murasaki/packaging/arch && makepkg -si
+  ```
+
+El plugin de fondo de Plasma y la extensión de GNOME vienen en el `.deb` y en el paquete de Arch, no en el Flatpak.
 
 ## Compilar
 
