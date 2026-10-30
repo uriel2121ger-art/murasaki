@@ -29,9 +29,9 @@ optdepends=(
   'steam: Wallpaper Engine items from your own Steam library'
   'steamcmd: Workshop downloads without the Steam client'
 )
-# Replace SKIP with `updpkgsums` output when a tag is published.
+# Run `updpkgsums` after bumping pkgver to a new tag.
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('SKIP')
+sha256sums=('13aaafff31abbce5ecaed0562e9d6d8301b8b7e3dd97641f5a6de88c7b73aec5')
 
 build() {
   # No MURASAKI_FETCH_DIR: the system glslang is used, nothing is downloaded.
@@ -56,4 +56,5 @@ package() {
   # shared install rules also drop in place.
   rm -rf "$pkgdir/usr/share/murasaki/plasma"
   rm -f "$pkgdir/usr/share/doc/$pkgname/copyright" "$pkgdir/usr/share/doc/$pkgname/changelog.gz"
+  rmdir --ignore-fail-on-non-empty "$pkgdir/usr/share/murasaki"
 }
