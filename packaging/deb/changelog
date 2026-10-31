@@ -1,3 +1,13 @@
+murasaki (0.1.1) unstable; urgency=low
+
+  * The package has a long description.
+  * The Plasma wallpaper plugin's QML module is installed in Qt's QML
+    directory, stripped, instead of under /usr/share.
+  * The post-install message only suggests enabling murasaki-surface (the
+    daemon is started by D-Bus).
+
+ -- uriel2121ger-art <uriel2121ger-art@users.noreply.github.com>  Sat, 31 Oct 2026 18:00:00 -0600
+
 murasaki (0.1.0) unstable; urgency=low
 
   * First packaged release: the daemon, the surface, the Vulkan scene engine,

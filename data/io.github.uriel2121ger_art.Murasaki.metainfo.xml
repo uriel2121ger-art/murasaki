@@ -50,6 +50,11 @@
   </requires>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.1.1" date="2026-10-31">
+      <description>
+        <p>Packaging fixes: the Debian package has a long description, and the Plasma wallpaper plugin's libraries are installed in Qt's QML directory.</p>
+      </description>
+    </release>
     <release version="0.1.0" date="2026-10-17">
       <description>
         <p>First packaged release.</p>
