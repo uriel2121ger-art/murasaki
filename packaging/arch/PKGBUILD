@@ -52,9 +52,8 @@ package() {
   install -Dm644 "$pkgname-$pkgver/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
   install -Dm644 "$pkgname-$pkgver/LICENSING.md" "$pkgdir/usr/share/licenses/$pkgname/LICENSING.md"
   install -Dm644 "$pkgname-$pkgver/docs/third-party.md" "$pkgdir/usr/share/licenses/$pkgname/third-party.md"
-  # Debian-specific files, and the staged copy of the Plasma bridge module (the Plasma package has its own), that the
-  # shared install rules also drop in place.
-  rm -rf "$pkgdir/usr/share/murasaki/plasma"
+  # Debian-specific files that the shared install rules also drop in place, and the staged copy of the Plasma bridge
+  # module that releases up to 0.1.0 install (later ones load it from Qt's QML directory).
+  rm -rf "$pkgdir/usr/share/murasaki"
   rm -f "$pkgdir/usr/share/doc/$pkgname/copyright" "$pkgdir/usr/share/doc/$pkgname/changelog.gz"
-  rmdir --ignore-fail-on-non-empty "$pkgdir/usr/share/murasaki"
 }

@@ -48,7 +48,7 @@ behaviour (D-Bus activation of the surface and the overlay, KWin access) has not
 | `murasaki-scene-vk` and its libav video plugin | yes | libav is the LGPL FFmpeg of the manifest |
 | `murasaki-overlay`, `murasaki-puppet`, `murasaki-petimport`, `murasaki-petaudio`, `murasaki-screenmatch` | yes | see Desktop pets above; screen triggers capture through the ScreenCast portal, untested here |
 | `murasaki-sandbox` | yes | Landlock only (see Two sandboxes) |
-| Plasma wallpaper package (`share/plasma`, `share/murasaki/plasma`) | no | removed in post-install; use the `.deb` or the Arch package |
+| Plasma wallpaper package (`share/plasma`, `lib/murasaki-qml`) | no | removed in post-install; use the `.deb` or the Arch package |
 | GNOME Shell extension (`share/gnome-shell`) | no | an extension must be installed on the host |
 | systemd user units | no | removed; D-Bus activation instead |
 | Live2D Cubism Core | no | proprietary; never bundled |

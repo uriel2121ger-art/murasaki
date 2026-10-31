@@ -86,7 +86,7 @@ jobs:
 
           ## Instalación
 
-          **Ubuntu 26.04 / KDE neon (.deb)**
+          **Ubuntu 26.04 y derivadas (.deb)**: necesita glibc 2.43 y FFmpeg 8, que solo trae Ubuntu 26.04. En Ubuntu 24.04, KDE neon (todavía con base 24.04) y las demás distribuciones usa el Flatpak.
 
               sudo apt install ./murasaki_*_amd64.deb
 

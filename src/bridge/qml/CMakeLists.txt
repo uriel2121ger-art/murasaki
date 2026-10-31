@@ -46,11 +46,5 @@ if(TARGET murasaki_dmabuf AND Qt6Quick_FOUND)
   # the static libraries folded into the backing library must not leak their symbols into plasmashell.
   target_link_options(murasaki_bridge_qml PRIVATE LINKER:--exclude-libs,ALL)
 
-  # Staged copy for the package installer (P6): the whole module directory, relocatable.
-  qt_query_qml_module(murasaki_bridge_qml QMLDIR _qmldir TYPEINFO _typeinfo)
-  set(_module_files $<TARGET_FILE:murasaki_bridgeplugin> $<TARGET_FILE:murasaki_bridge_qml> ${_qmldir} ${_typeinfo})
-  install(FILES ${_module_files} DESTINATION ${CMAKE_INSTALL_DATADIR}/murasaki/plasma/Murasaki/Bridge
-          COMPONENT staging) # not packaged (the .deb lists its components); the Plasma package has its own copy
-  # The Plasma wallpaper package (data/CMakeLists.txt) carries its own copy of the module.
-  set_property(GLOBAL PROPERTY MURASAKI_BRIDGE_MODULE_FILES "${_module_files}")
+  # data/CMakeLists.txt installs the module into Qt's QML directory, where the Plasma wallpaper package loads it from.
 endif()

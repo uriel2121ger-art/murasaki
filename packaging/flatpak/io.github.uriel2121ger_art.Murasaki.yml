@@ -124,6 +124,8 @@ modules:
       - -DMURASAKI_BUILD_APP=ON
       - -DMURASAKI_FETCH_DIR=/run/build/murasaki/fetch
       - -DMURASAKI_SYSTEMD_USER_UNIT_DIR=share/systemd/user
+      # Only the Plasma package loads this module, and it is removed below.
+      - -DMURASAKI_INSTALL_QMLDIR=lib/murasaki-qml
     sources:
       - type: dir
         path: ../..
@@ -136,7 +138,7 @@ modules:
     post-install:
       # Flatpak exports the desktop file, icon and metainfo of the app id; the overlay's hidden entry and the Plasma
       # wallpaper package have no use inside a sandbox (the host's plasmashell can not load them from here).
-      - rm -rf ${FLATPAK_DEST}/share/plasma ${FLATPAK_DEST}/share/murasaki/plasma ${FLATPAK_DEST}/share/gnome-shell
+      - rm -rf ${FLATPAK_DEST}/share/plasma ${FLATPAK_DEST}/lib/murasaki-qml ${FLATPAK_DEST}/share/gnome-shell
       - rm -f ${FLATPAK_DEST}/share/applications/io.github.uriel2121ger_art.Murasaki.Overlay.desktop
       # No systemd inside the sandbox: the exported D-Bus service files must start the program themselves (flatpak
       # rewrites Exec to `flatpak run --command=...`), so drop the SystemdService= lines and give the surface a file too.

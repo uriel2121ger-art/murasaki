@@ -14,11 +14,11 @@ dependency list and what the format can not carry. The design notes of the first
 | systemd user units | `lib/systemd/user/{murasakid,murasaki-surface,murasaki-overlay}.service` (with `-DMURASAKI_SYSTEMD_USER_UNIT_DIR=lib/systemd/user`) |
 | D-Bus activation | `share/dbus-1/services/io.github.uriel2121ger_art.Murasaki{,.Overlay}.service` |
 | Desktop | launcher and hidden overlay entry in `share/applications/`, icon, AppStream metainfo |
-| Plasma | `share/plasma/wallpapers/io.github.uriel2121ger_art.Murasaki/` (self-contained, with its copy of the `Murasaki.Bridge` module) |
+| Plasma | `share/plasma/wallpapers/io.github.uriel2121ger_art.Murasaki/` (its `contents/ui/Murasaki/Bridge/qmldir` loads the `Murasaki.Bridge` module from Qt's QML directory (absolute plugin path, so that a copied package still works), `lib/<multiarch>/qt6/qml/Murasaki/Bridge/`, set with `-DMURASAKI_INSTALL_QMLDIR`) |
 | GNOME Shell | `share/gnome-shell/extensions/murasaki@uriel2121ger-art.github.io/` |
 | Docs and licences | `share/doc/murasaki/`: `copyright`, `changelog.gz`, `README.md`, `LICENSING.md`, `third-party.md`; `licenses/`: the notices of the statically linked code (QuickJS-ng, volk, VMA, stb, dr_libs, and glslang when the build fetched it) |
 
-Not packaged on purpose: `share/murasaki/plasma/` (a staged copy of the bridge module, component `staging`: the `.deb` lists its components and the PKGBUILD removes it). Not installed on purpose: `murasaki-petprobe` and the `scene-vk-*` tools (development tools of the compat sweeps and the
+Not installed on purpose: `murasaki-petprobe` and the `scene-vk-*` tools (development tools of the compat sweeps and the
 engine), the tests. Translations (Spanish) and the KWin scripts are Qt resources inside the binaries.
 
 ## Licences in a package

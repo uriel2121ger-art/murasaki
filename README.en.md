@@ -37,7 +37,7 @@ The [user guide](docs/guide/README.md) explains every page of the app, what each
 
 Download the package of the latest version from [Releases](../../releases):
 
-- **Ubuntu 26.04 / KDE neon (.deb):** `sudo apt install ./murasaki_*_amd64.deb`
+- **Ubuntu 26.04 and derivatives (.deb):** `sudo apt install ./murasaki_*_amd64.deb`. It needs glibc 2.43 and FFmpeg 8, which only Ubuntu 26.04 has: on Ubuntu 24.04, KDE neon (still based on 24.04) and other distributions use the Flatpak.
 - **Any distribution (Flatpak):** `flatpak install --user ./murasaki-*-x86_64.flatpak` (needs the Flathub remote for the KDE runtime).
 - **Arch Linux:** build the package with the PKGBUILD in the repo:
 
