@@ -48,20 +48,30 @@ if(MURASAKI_APP)
   install(FILES io.github.uriel2121ger_art.Murasaki.metainfo.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/metainfo)
 endif()
 
-# The Plasma wallpaper package. It is self-contained: the Murasaki.Bridge module is copied into contents/ui and
-# imported by relative path, so plasmashell needs no QML_IMPORT_PATH. main.qml learns the absolute path of
-# murasaki-surface here, so plasmashell (which has no PATH it can count on) starts exactly this install's host.
+# The Plasma wallpaper package. contents/ui/Murasaki/Bridge holds a qmldir that the package imports by relative path,
+# so plasmashell needs no QML_IMPORT_PATH. The module's libraries are architecture-dependent and stay out of share/:
+# they go with the whole module into Qt's QML directory, and the package's qmldir names that directory as the plugin
+# path. The path is absolute, like the programs main.qml names, so that a copy of the package (kpackagetool6, the
+# nested test) still loads this install's module; Qt logs that it prefers relative ones. main.qml learns the absolute
+# path of murasaki-surface here, so plasmashell (which has no PATH it can count on) starts exactly this install's host.
 if(TARGET murasaki_bridge_qml AND MURASAKI_SURFACE)
   set(MURASAKI_PLASMA_ID io.github.uriel2121ger_art.Murasaki)
+  set(MURASAKI_INSTALL_QMLDIR ${QT6_INSTALL_QML} CACHE STRING
+      "QML module directory, relative to the install prefix, of the Murasaki.Bridge module the Plasma package loads")
   set(_package_src ${CMAKE_CURRENT_SOURCE_DIR}/plasma/${MURASAKI_PLASMA_ID})
   set(_package_dest ${CMAKE_INSTALL_DATADIR}/plasma/wallpapers/${MURASAKI_PLASMA_ID})
+  set(_module_dest ${MURASAKI_INSTALL_QMLDIR}/Murasaki/Bridge)
   install(FILES ${_package_src}/contents/config/main.xml DESTINATION ${_package_dest}/contents/config)
   install(FILES ${_package_src}/contents/ui/MurasakiView.qml ${_package_src}/contents/ui/config.qml
           DESTINATION ${_package_dest}/contents/ui)
-  get_property(_module_files GLOBAL PROPERTY MURASAKI_BRIDGE_MODULE_FILES)
-  install(FILES ${_module_files} DESTINATION ${_package_dest}/contents/ui/Murasaki/Bridge)
-  # Three generated files are written when installing, from the real prefix (so that `cmake --install --prefix DIR`
-  # works, and so does DESTDIR): metadata.json (the project version) and the two that name an installed program.
+  # install(TARGETS), not install(FILES): the libraries get stripped (CPACK_STRIP_FILES, cmake --install --strip).
+  install(TARGETS murasaki_bridge_qml murasaki_bridgeplugin LIBRARY DESTINATION ${_module_dest})
+  qt_query_qml_module(murasaki_bridge_qml QMLDIR _qmldir TYPEINFO _typeinfo)
+  install(FILES ${_qmldir} ${_typeinfo} DESTINATION ${_module_dest})
+  # Four generated files are written when installing, from the real prefix (so that `cmake --install --prefix DIR`
+  # works, and so does DESTDIR): metadata.json (the project version), the two that name an installed program, and the
+  # package's qmldir: the module's own, with the plugin path added and without the type information (it stays with
+  # the module).
   install(CODE "
     set(MURASAKI_SURFACE_PROGRAM \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}/murasaki-surface\")
     set(MURASAKI_APP_PROGRAM \"\${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}/murasaki\")
@@ -71,10 +81,25 @@ if(TARGET murasaki_bridge_qml AND MURASAKI_SURFACE)
     set(_ui \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${_package_dest}/contents/ui\")
     configure_file(\"${_package_src}/contents/ui/main.qml.in\" \"\${_ui}/main.qml\" @ONLY)
     configure_file(\"${_package_src}/contents/ui/ConfigStatus.qml.in\" \"\${_ui}/ConfigStatus.qml\" @ONLY)
-    # Whatever the umask of the installing user: readable by everybody, writable by the owner.
-    file(CHMOD \"\${_root}/metadata.json\" \"\${_ui}/main.qml\" \"\${_ui}/ConfigStatus.qml\"
-         PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
+    set(_module_qmldir \"${_qmldir}\")
+    set(_module_dir \"\${CMAKE_INSTALL_PREFIX}/${_module_dest}\")
   ")
+  install(CODE [[
+    file(STRINGS "${_module_qmldir}" _lines)
+    set(_text "")
+    foreach(_line IN LISTS _lines)
+      if(_line MATCHES "^typeinfo ")
+        continue()
+      elseif(_line MATCHES "^(optional )?plugin [^ ]+$")
+        string(APPEND _line " ${_module_dir}")
+      endif()
+      string(APPEND _text "${_line}\n")
+    endforeach()
+    file(WRITE "${_ui}/Murasaki/Bridge/qmldir" "${_text}")
+    # Whatever the umask of the installing user: readable by everybody, writable by the owner.
+    file(CHMOD "${_root}/metadata.json" "${_ui}/main.qml" "${_ui}/ConfigStatus.qml" "${_ui}/Murasaki/Bridge/qmldir"
+         PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
+  ]])
 endif()
 
 # The GNOME Shell extension (docs/gnome.md): enable it with gnome-extensions. The tests and the README are not installed.

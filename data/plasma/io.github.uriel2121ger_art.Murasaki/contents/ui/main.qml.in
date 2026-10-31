@@ -3,7 +3,8 @@ import org.kde.plasma.plasmoid
 
 // The Murasaki wallpaper: a bridge consumer. The heavy work (decoding, web engine, scene engine) happens in a
 // separate murasaki-surface --host process, so a crash there never reaches plasmashell. The Murasaki.Bridge module
-// that holds BridgeItem ships inside this package (contents/ui/Murasaki/Bridge) and does run inside plasmashell:
+// that holds BridgeItem is imported from this package (contents/ui/Murasaki/Bridge, whose qmldir points at the
+// libraries in Qt's QML directory) and does run inside plasmashell:
 // if it cannot be loaded, a text item says so instead of an error wallpaper, but a crash in the module itself could
 // still take plasmashell down.
 WallpaperItem {

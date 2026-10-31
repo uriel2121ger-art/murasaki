@@ -38,12 +38,22 @@ for file in "$P"/share/applications/*.desktop; do
     done < <(sed -n 's/^Exec=\([^ ]*\).*/\1/p' "$file")
 done
 
-# 4. The Plasma wallpaper package: it starts this install's host and carries its own Bridge module.
+# 4. The Plasma wallpaper package: it starts this install's host, and its Bridge qmldir loads the plugin of this
+#    install from outside share/ (architecture-dependent files do not belong there).
 PKG="$P/share/plasma/wallpapers/io.github.uriel2121ger_art.Murasaki"
 if [[ -d $PKG ]]; then
     grep -qF "$P/bin/murasaki-surface" "$PKG/contents/ui/main.qml" || bad "main.qml does not name $P/bin/murasaki-surface"
     grep -qF "$P/bin/murasaki" "$PKG/contents/ui/ConfigStatus.qml" || bad "ConfigStatus.qml does not name this install's murasaki"
-    [[ -f $PKG/contents/ui/Murasaki/Bridge/qmldir ]] || bad "the package has no Murasaki.Bridge module"
+    QMLDIR="$PKG/contents/ui/Murasaki/Bridge/qmldir"
+    if [[ -f $QMLDIR ]]; then
+        read -r plugin plugin_dir < <(sed -n 's/^\(optional \)\?plugin \([^ ]*\) \(.*\)/\2 \3/p' "$QMLDIR")
+        [[ $plugin_dir == "$P"/lib/* && -f $plugin_dir/lib$plugin.so ]] \
+            || bad "the package's qmldir does not name a plugin of this install: ${plugin:-none} in ${plugin_dir:-none}"
+    else
+        bad "the package has no Murasaki.Bridge qmldir"
+    fi
+    elf=$(find "$P/share" -type f -name '*.so*')
+    [[ -z $elf ]] || bad "shared libraries under share/: $elf"
     [[ -f $PKG/metadata.json ]] || bad "no metadata.json"
 fi
 

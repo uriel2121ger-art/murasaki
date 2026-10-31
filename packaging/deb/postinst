@@ -8,9 +8,9 @@ if [ "$1" = "configure" ]; then
         cat <<'MSG'
 Murasaki is installed. It runs as per-user services; nothing was enabled. As your user:
 
-    systemctl --user enable --now murasakid murasaki-surface
+    systemctl --user enable --now murasaki-surface
 
-(D-Bus also starts the daemon on demand, and the desktop pets start with the first pet.)
+(D-Bus starts the daemon on demand, and the desktop pets start with the first pet.)
 Plasma users can pick "Murasaki" as the wallpaper type in the desktop settings.
 MSG
     else
