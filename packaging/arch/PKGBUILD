@@ -1,7 +1,7 @@
 # Maintainer: uriel2121ger-art <uriel2121ger-art@users.noreply.github.com>
 # Builds Murasaki from a release tag. The dependency list mirrors the .deb (docs/packaging.md).
 pkgname=murasaki
-pkgver=0.1.0
+pkgver=0.1.1
 pkgrel=1
 pkgdesc='Animated wallpapers and desktop pets (video, web and scene wallpapers, Wallpaper Engine items)'
 arch=(x86_64)
@@ -31,7 +31,7 @@ optdepends=(
 )
 # Run `updpkgsums` after bumping pkgver to a new tag.
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-sha256sums=('13aaafff31abbce5ecaed0562e9d6d8301b8b7e3dd97641f5a6de88c7b73aec5')
+sha256sums=('8da357140b5d6882ac9d1c418f574c532ba8c4680eb504ed715b273a0f8976dc')
 
 build() {
   # No MURASAKI_FETCH_DIR: the system glslang is used, nothing is downloaded.
