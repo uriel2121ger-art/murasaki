@@ -4,12 +4,12 @@
 
 ![Animated desktop pets over a Wallpaper Engine wallpaper](docs/images/mascotas.gif)
 
+**[Download](../../releases/latest)** · [Install](#install) · [Screenshots](#screenshots) · [User guide](docs/guide/README.md)
+
 Animated wallpapers and desktop overlays for Linux. Murasaki plays the Wallpaper Engine content you already own on Steam: scenes, videos, web wallpapers and Steam Workshop items. Anima Engine desktop pets work too. It reads everything from your own Steam install and never redistributes it.
 
 > [!WARNING]
 > **Beta (v0.1).** Murasaki is used every day, but it can still have bugs and some scenes are drawn incomplete. If something does not work, [open an issue](../../issues/new/choose) with your logs ([how to get them](docs/user/logs.md)).
-
-How it is built: `murasakid` indexes your Wallpaper Engine Workshop library and serves it over D-Bus (see `docs/dbus-api.md`). `murasaki-surface` shows video, web and scene wallpapers behind your windows on KDE Plasma (Wayland), Sway, Hyprland and X11 sessions (`docs/user/x11.md`). Scenes need the scene engine (below); without it they show their preview image. On Plasma, desktop icons are hidden while Murasaki runs unless you use the Plasma wallpaper plugin (below).
 
 ## Screenshots
 
@@ -64,6 +64,8 @@ Everything needs Qt ≥ 6.8 (Ubuntu 26.04 LTS, Fedora 41+, Arch, KDE neon; on Ub
 The GUI (`murasaki`) needs Qt ≥ 6.8 with Qt Quick Controls 2, Widgets and WebEngine to build, plus Kirigami (KF6, `kirigami` / `qml6-module-org-kde-kirigami`) and QtWebEngine at run time. With `MURASAKI_BUILD_APP=AUTO` (the default) it is built only when Qt ≥ 6.8 and these modules are found; `ON` fails the configure step otherwise and `OFF` skips it.
 
 ## Usage
+
+How it is built: `murasakid` indexes your Wallpaper Engine Workshop library and serves it over D-Bus (see `docs/dbus-api.md`). `murasaki-surface` shows video, web and scene wallpapers behind your windows on KDE Plasma (Wayland), Sway, Hyprland and X11 sessions (`docs/user/x11.md`). Scenes need the scene engine (below); without it they show their preview image. On Plasma, desktop icons are hidden while Murasaki runs unless you use the Plasma wallpaper plugin (below).
 
 ```bash
 cmake --install build/dev                 # installs into ~/.local
