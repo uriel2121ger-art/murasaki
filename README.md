@@ -4,12 +4,12 @@
 
 ![Mascotas de escritorio animadas sobre un fondo de Wallpaper Engine](docs/images/mascotas.gif)
 
+**[Descargar](../../releases/latest)** · [Instalación](#instalación) · [Capturas](#capturas) · [Guía de uso](docs/guia/README.md)
+
 Fondos de pantalla animados y mascotas de escritorio para Linux. Murasaki reproduce el contenido de Wallpaper Engine que ya tienes en Steam: escenas, videos, fondos web y elementos del Steam Workshop, además de las mascotas de Anima Engine. Lo lee todo desde tu propia instalación de Steam y nunca lo redistribuye.
 
 > [!WARNING]
 > **Beta (v0.1).** Murasaki se usa a diario, pero todavía puede haber fallos y algunas escenas se ven incompletas. Si algo no funciona, [abre un issue](../../issues/new/choose) con tus logs ([cómo sacarlos](docs/user/logs.md)).
-
-Cómo está hecho: `murasakid` indexa tu biblioteca del Workshop de Wallpaper Engine y la ofrece por D-Bus (ver `docs/dbus-api.md`). `murasaki-surface` muestra fondos de video, web y escena detrás de tus ventanas en sesiones de KDE Plasma (Wayland), Sway, Hyprland y X11 (`docs/user/x11.md`). Las escenas necesitan el motor de escenas (abajo); sin él muestran su imagen de vista previa. En Plasma, los iconos del escritorio se ocultan mientras Murasaki está activo, salvo que uses el plugin de fondo de Plasma (abajo).
 
 ## Capturas
 
@@ -64,6 +64,8 @@ Todo necesita Qt ≥ 6.8 (Ubuntu 26.04 LTS, Fedora 41+, Arch, KDE neon; en Ubunt
 La interfaz gráfica (`murasaki`) necesita para compilarse Qt ≥ 6.8 con Qt Quick Controls 2, Widgets y WebEngine, y en ejecución Kirigami (KF6, `kirigami` / `qml6-module-org-kde-kirigami`) y QtWebEngine. Con `MURASAKI_BUILD_APP=AUTO` (el valor por defecto) solo se compila si encuentra Qt ≥ 6.8 y esos módulos; con `ON` la configuración falla si faltan y con `OFF` se omite.
 
 ## Uso
+
+Cómo está hecho: `murasakid` indexa tu biblioteca del Workshop de Wallpaper Engine y la ofrece por D-Bus (ver `docs/dbus-api.md`). `murasaki-surface` muestra fondos de video, web y escena detrás de tus ventanas en sesiones de KDE Plasma (Wayland), Sway, Hyprland y X11 (`docs/user/x11.md`). Las escenas necesitan el motor de escenas (abajo); sin él muestran su imagen de vista previa. En Plasma, los iconos del escritorio se ocultan mientras Murasaki está activo, salvo que uses el plugin de fondo de Plasma (abajo).
 
 ```bash
 cmake --install build/dev                 # instala en ~/.local
