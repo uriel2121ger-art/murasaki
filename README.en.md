@@ -2,7 +2,7 @@
 
 [Español](README.md) · **English**
 
-![Animated desktop pets over a Wallpaper Engine wallpaper](docs/images/mascotas.gif)
+![Animated desktop pets over a night city](docs/images/mascotas.gif)
 
 **[Download](../../releases/latest)** · [Install](#install) · [Screenshots](#screenshots) · [User guide](docs/guide/README.md)
 

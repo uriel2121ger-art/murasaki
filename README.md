@@ -2,7 +2,7 @@
 
 **Español** · [English](README.en.md)
 
-![Mascotas de escritorio animadas sobre un fondo de Wallpaper Engine](docs/images/mascotas.gif)
+![Mascotas de escritorio animadas sobre una ciudad nocturna](docs/images/mascotas.gif)
 
 **[Descargar](../../releases/latest)** · [Instalación](#instalación) · [Capturas](#capturas) · [Guía de uso](docs/guia/README.md)
 
